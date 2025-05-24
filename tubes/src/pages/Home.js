@@ -1,43 +1,45 @@
 import { useState, useEffect } from 'react';
 import EventCard from '../components/EventCard';
 import EventFilter from '../components/EventFilter';
-import dummy from '../assets/pict/dummy.jpg';
 
 function Home({ isDarkMode }) {
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: 'Seminar Teknik Informatika',
-      description: 'Pelajari tren terbaru dalam AI dan cloud computing.',
-      date: '2025-05-20',
-      location: 'Aula ITERA',
-      poster: [dummy],
-      categories: ['Seminar', 'UKM'],
-    },
-    {
-      id: 2,
-      title: 'Lomba Desain UKM',
-      description: 'Tunjukkan kreativitasmu dalam lomba desain grafis.',
-      date: '2025-05-25',
-      location: 'Gedung Kuliah Umum',
-      poster: [dummy],
-      categories: ['Lomba'],
-    },
-    {
-      id: 3,
-      title: 'Pameran UKM ITERA',
-      description: 'Jelajahi kegiatan dan karya UKM ITERA.',
-      date: '2025-05-22',
-      location: 'Lapangan ITERA',
-      poster: [dummy],
-      categories: ['UKM', 'Seminar'],
-    },
-  ]);
-
-  const [filteredEvents, setFilteredEvents] = useState(events);
+  const [events, setEvents] = useState([]); // Initialize with empty array
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [sortBy, setSortBy] = useState('date-asc');
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    // Fetch data from backend using fetch API
+    const fetchContent = async () => {
+      try {
+        const response = await fetch('http://localhost:6543/api/content'); // Use fetch with full backend URL
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        // Map backend data to match frontend structure if necessary
+        const fetchedContent = data.map(item => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          // Assuming backend returns image_path, map it to poster array
+          poster: [item.image_path],
+          // Add default or placeholder values for date, location, categories if needed
+          date: 'N/A', // Placeholder
+          location: 'Uploaded Content', // Placeholder
+          categories: ['Uploaded'], // Placeholder category
+        }));
+        setEvents(fetchedContent); // Replace dummy data with fetched data
+      } catch (error) {
+        console.error('Error fetching content:', error);
+        // Optionally keep dummy data or show an error message
+        // setEvents([...dummyEvents]); // Uncomment to keep dummy data on error
+      }
+    };
+
+    fetchContent();
+  }, []); // Empty dependency array means this runs once on mount
 
   useEffect(() => {
     let updatedEvents = [...events];
@@ -59,7 +61,7 @@ function Home({ isDarkMode }) {
     }
 
     setFilteredEvents(updatedEvents);
-  }, [sortBy, selectedCategories, events]);
+  }, [sortBy, selectedCategories, events]); // Add events to dependency array
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prev => !prev);

@@ -14,6 +14,7 @@ function Navbar({ isDarkMode, toggleDarkMode }) {
           <Link to="/about" className="text-white hover:text-gray-200">About</Link>
           {user ? (
             <>
+              <Link to="/upload" className="text-white hover:text-gray-200">Upload</Link>
               <span className="text-white">Hi, {user.name}</span>
               <button onClick={logout} className="text-white hover:text-gray-200">Logout</button>
             </>

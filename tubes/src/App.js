@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import About from './pages/About';
+import Upload from './pages/Upload';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Home isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />} />
           <Route path="/login" element={<Login isDarkMode={isDarkMode} />} />
           <Route path="/about" element={<About isDarkMode={isDarkMode} />} />
+          <Route path="/upload" element={<Upload isDarkMode={isDarkMode} />} />
         </Routes>
       </Router>
     </AuthProvider>

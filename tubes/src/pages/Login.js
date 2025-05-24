@@ -5,13 +5,26 @@ import { AuthContext } from '../context/AuthContext';
 function Login({ isDarkMode }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPopup, setShowPopup] = useState(false); // State for popup visibility
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Dummy login, nanti ganti dengan Axios POST ke /login
-    login({ name: 'User', email });
+    // Add logic to check for hardcoded credentials
+    if (email === 'root@test.com' && password === 'root') {
+      setShowPopup(true); // Show popup on successful login
+      login({ name: 'User', email });
+      // navigate('/'); // Navigate after a short delay or user interaction with popup
+    } else {
+      alert('Invalid credentials'); // Optional: Keep alert for incorrect credentials
+    }
+  };
+
+  // Optional: Function to close popup and navigate
+  const handlePopupClose = () => {
+    setShowPopup(false);
     navigate('/');
   };
 
@@ -50,6 +63,22 @@ function Login({ isDarkMode }) {
           </button>
         </form>
       </div>
+
+      {/* Web-based popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className={`p-8 max-w-sm mx-auto rounded-lg shadow-lg text-center ${isDarkMode ? 'bg-itera-dark-secondary text-white' : 'bg-white text-gray-900'}`}>
+            <h2 className="text-2xl font-bold mb-4">berhasil login</h2>
+            {/* Optional: Add a button to close the popup and navigate */}
+            <button
+              onClick={handlePopupClose}
+              className={`mt-4 px-6 py-2 rounded ${isDarkMode ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-green-600 text-white hover:bg-green-700'}`}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
