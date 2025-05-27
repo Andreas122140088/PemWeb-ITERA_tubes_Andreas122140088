@@ -13,7 +13,7 @@ function Home({ isDarkMode }) {
     // Fetch data from backend using fetch API
     const fetchContent = async () => {
       try {
-        const response = await fetch('http://localhost:6543/api/content'); // Use fetch with full backend URL
+        const response = await fetch('http://localhost:6543/api/acara'); // Use fetch with full backend URL
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -21,14 +21,12 @@ function Home({ isDarkMode }) {
         // Map backend data to match frontend structure if necessary
         const fetchedContent = data.map(item => ({
           id: item.id,
-          title: item.title,
-          description: item.description,
-          // Assuming backend returns image_path, map it to poster array
-          poster: [item.image_path],
-          // Add default or placeholder values for date, location, categories if needed
-          date: 'N/A', // Placeholder
-          location: 'Uploaded Content', // Placeholder
-          categories: ['Uploaded'], // Placeholder category
+          title: item.judul || item.title || item.name || 'No Title', // Use judul, then title, then name, then default
+          description: item.konten ? `${item.konten.substring(0, 150)}${item.konten.length > 150 ? '...' : ''}` : item.description ? `${item.description.substring(0, 150)}${item.description.length > 150 ? '...' : ''}` : 'No description available.', // Use konten, then description snippet, then default
+          // Try multiple possible keys for image and ensure it's an array
+          poster: [item.image_path || item.image_url || item.poster_url].filter(url => url), // Get first non-null/undefined URL and put in array
+          date: item.tanggal_acara || item.date || item.event_date || 'N/A', // Use tanggal_acara, then date, then event_date, then default
+          categories: Array.isArray(item.jenis_acara) ? item.jenis_acara : (item.jenis_acara ? [item.jenis_acara] : (Array.isArray(item.categories) ? item.categories : (item.categories ? [item.categories] : ['Uploaded']))), // Ensure categories is always an array
         }));
         setEvents(fetchedContent); // Replace dummy data with fetched data
       } catch (error) {

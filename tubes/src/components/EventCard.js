@@ -7,7 +7,7 @@ function EventCard({ event }) {
       <img src={event.poster} alt={event.title} className="w-full h-48 object-cover" />
       <div className="p-4">
         <h3 className="text-xl font-semibold text-gray-800">{event.title}</h3>
-        <p className="text-gray-600 mt-1">{event.date} | {event.location}</p>
+        <p className="text-gray-600 mt-1">{event.date} | {Array.isArray(event.categories) ? event.categories.join(', ') : event.categories || 'No Categories'}</p>
         <p className="text-gray-600 mt-2 line-clamp-2">{event.description}</p>
         <Link
           to={`/event/${event.id}`}
