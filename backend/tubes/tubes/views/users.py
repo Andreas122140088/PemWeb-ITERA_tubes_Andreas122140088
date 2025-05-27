@@ -4,6 +4,7 @@ from pyramid.httpexceptions import (
     HTTPFound,
     HTTPNotFound,
     HTTPBadRequest,
+    HTTPUnauthorized,  # Import HTTPUnauthorized
 )
 from ..models import User  # Changed from Mahasiswa
 
@@ -126,3 +127,27 @@ def user_delete(request):  # Changed function name
     dbsession.delete(user)  # Changed variable name
 
     return {'success': True, 'message': f'User dengan id {user_id} berhasil dihapus'}  # Updated message
+
+
+@view_config(route_name='user_login', request_method='POST', renderer='json')  # New view for login
+def user_login(request):
+    """View for user login"""
+    try:
+        json_data = request.json_body
+        email = json_data.get('email')
+        password = json_data.get('password')
+
+        if not email or not password:
+            return HTTPBadRequest(json_body={'error': 'Email and password are required'})
+
+        dbsession = request.dbsession
+        user = dbsession.query(User).filter_by(email=email).first()
+
+        if user is None or user.password != password:  # Simple password check (consider hashing in production)
+            return HTTPUnauthorized(json_body={'error': 'Invalid email or password'})
+
+        # Successful login
+        return {'success': True, 'message': 'Login successful', 'user': user.to_dict()}
+
+    except Exception as e:
+        return HTTPBadRequest(json_body={'error': str(e)})

@@ -17,6 +17,8 @@ class User(Base):
     jurusan = Column(Text, nullable=False)
     tanggal_lahir = Column(Date)
     alamat = Column(Text)
+    email = Column(Text, unique=True, nullable=True)  
+    password = Column(Text, nullable=False)  
 
     def to_dict(self):
         return {
@@ -26,4 +28,6 @@ class User(Base):
             'jurusan': self.jurusan,
             'tanggal_lahir': self.tanggal_lahir.isoformat() if self.tanggal_lahir else None,
             'alamat': self.alamat,
+            'email': self.email,  
+            'password': self.password,
         }

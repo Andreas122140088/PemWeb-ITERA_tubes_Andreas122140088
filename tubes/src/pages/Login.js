@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios'; // Import axios
 
 function Login({ isDarkMode }) {
   const [email, setEmail] = useState('');
@@ -9,16 +10,31 @@ function Login({ isDarkMode }) {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => { // Make handleSubmit async
     e.preventDefault();
-    // Dummy login, nanti ganti dengan Axios POST ke /login
-    // Add logic to check for hardcoded credentials
-    if (email === 'root@test.com' && password === 'root') {
-      setShowPopup(true); // Show popup on successful login
-      login({ name: 'User', email });
-      // navigate('/'); // Navigate after a short delay or user interaction with popup
-    } else {
-      alert('Invalid credentials'); // Optional: Keep alert for incorrect credentials
+
+    try {
+      // Fetch all users from the list endpoint
+      const response = await axios.get('http://localhost:6543/api/886920');
+      const users = response.data.users; // Assuming the response has a 'users' key with an array of user objects
+
+      // Find a user with matching email and password
+      const foundUser = users.find(user => user.email === email && user.password === password);
+
+      if (foundUser) {
+        // Login successful
+        setShowPopup(true); // Show popup on successful login
+        // Store user data including id in auth context
+        login({ id: foundUser.id, name: foundUser.nama, email: foundUser.email }); // Include user id
+        // navigate('/'); // Navigate after a short delay or user interaction with popup
+      } else {
+        // Handle login failure (e.g., invalid credentials)
+        alert('Invalid email or password');
+      }
+    } catch (error) {
+      // Handle network errors or other exceptions
+      console.error('Login error:', error);
+      alert('An error occurred during login.');
     }
   };
 

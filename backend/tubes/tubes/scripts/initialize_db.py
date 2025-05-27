@@ -19,17 +19,31 @@ def setup_models(dbsession):
         nama='Budi Santoso',
         jurusan='Teknik Informatika',
         tanggal_lahir=date(2000, 5, 15),
-        alamat='Jl. Merdeka No. 123, Bandung'
+        alamat='Jl. Merdeka No. 123, Bandung',
+        email='budi@example.com',
+        password='password1' # Add example password
     )
     user2 = models.User(
         nim='54321',
         nama='Siti Aminah',
         jurusan='Sistem Informasi',
         tanggal_lahir=date(2001, 8, 22),
-        alamat='Jl. Mawar No. 45, Jakarta'
+        alamat='Jl. Mawar No. 45, Jakarta',
+        email='siti@example.com',
+        password='password2' # Add example password
+    )
+    user3 = models.User(
+        nim='122140088',
+        nama='Andreas Alfin Yoga Utama',
+        jurusan='Teknik Informatika',
+        tanggal_lahir=date(2003, 9, 19),
+        alamat='Jl. doang No. Jadian',
+        email='andreas.122140088@student.itera.ac.id',
+        password='password3' # Add example password
     )
     dbsession.add(user1)
     dbsession.add(user2)
+    dbsession.add(user3)
 
 
 def parse_args(argv):
