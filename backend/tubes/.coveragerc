@@ -1,0 +1,3 @@
+[run]
+source = tubes
+omit = tubes/test*
