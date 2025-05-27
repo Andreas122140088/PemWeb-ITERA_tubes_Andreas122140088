@@ -12,3 +12,4 @@ def includeme(config):
                 config.add_route('user_update', '/api/886920/{id}', request_method='PUT') # Changed URL path
                 config.add_route('user_delete', '/api/886920/{id}', request_method='DELETE') # Changed URL path
                 config.add_route('user_login', '/api/886920/login', request_method='POST') # Add new route for login
+                config.add_route('acara_list', '/api/acara', request_method='GET')

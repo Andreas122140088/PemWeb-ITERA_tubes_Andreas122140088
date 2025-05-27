@@ -45,6 +45,49 @@ def setup_models(dbsession):
     dbsession.add(user2)
     dbsession.add(user3)
 
+    # Tambahkan data awal untuk Acara
+    acara1 = models.Acara(
+        gambar_file='seminar_itera.jpg',
+        judul='Seminar Nasional Teknologi',
+        konten='Seminar Nasional Teknologi di ITERA akan membahas inovasi terbaru dalam berbagai bidang teknologi, mulai dari kecerdasan buatan hingga energi terbarukan. Acara ini akan menghadirkan para pakar industri dan akademisi terkemuka untuk berbagi wawasan dan pengalaman mereka.\n\nSelain sesi presentasi, akan ada juga workshop interaktif dan pameran proyek mahasiswa. Ini adalah kesempatan emas bagi para peserta untuk memperluas pengetahuan, membangun jaringan, dan melihat langsung penerapan teknologi terkini dalam berbagai solusi praktis.',
+        tanggal_acara=date(2024, 10, 20),
+        jenis_acara='Seminar'
+    )
+    acara2 = models.Acara(
+        gambar_file='lomba_koding.png',
+        judul='Lomba Koding ITERA',
+        konten='Lomba Koding ITERA kembali hadir untuk menantang kemampuan pemrograman Anda! Kompetisi ini terbuka untuk seluruh mahasiswa ITERA dari berbagai jurusan. Persiapkan diri Anda untuk menyelesaikan soal-soal algoritma dan struktur data yang menarik dan menantang.\n\nTotal hadiah jutaan rupiah menanti para pemenang. Selain itu, ini adalah kesempatan bagus untuk mengasah skill koding, belajar dari peserta lain, dan mendapatkan pengalaman berharga dalam kompetisi pemrograman. Jangan lewatkan kesempatan ini untuk menjadi yang terbaik!',
+        tanggal_acara=date(2024, 11, 15),
+        jenis_acara='Lomba'
+    )
+    acara3 = models.Acara(
+        gambar_file='expo_ukm.jpeg',
+        judul='Expo UKM ITERA',
+        konten='Expo UKM ITERA adalah ajang tahunan untuk memperkenalkan berbagai Unit Kegiatan Mahasiswa yang ada di kampus. Temukan minat dan bakat Anda dengan menjelajahi stand-stand UKM yang beragam, mulai dari bidang seni, olahraga, ilmiah, hingga keagamaan.\n\nAcara ini juga akan dimeriahkan dengan penampilan menarik dari berbagai UKM, talkshow inspiratif, dan kesempatan untuk langsung mendaftar menjadi anggota. Jangan lewatkan kesempatan untuk menjadi bagian dari komunitas yang sesuai dengan passion Anda di ITERA.',
+        tanggal_acara=date(2024, 12, 1),
+        jenis_acara='UKM'
+    )
+    acara4 = models.Acara(
+        gambar_file='webinar_data_science.png',
+        judul='Webinar Pengantar Data Science',
+        konten='Ikuti Webinar Pengantar Data Science untuk memahami konsep dasar dan pentingnya Data Science di era digital saat ini. Webinar ini cocok bagi pemula yang tertarik dengan pengolahan dan analisis data. Narasumber ahli akan berbagi pengetahuan dan studi kasus menarik.\n\nAnda akan mempelajari tools dan teknik dasar yang digunakan dalam Data Science, serta bagaimana bidang ini diterapkan di berbagai industri. Webinar ini interaktif dan Anda akan memiliki kesempatan untuk bertanya langsung kepada narasumber. Segera daftar dan perluas wawasan Anda di bidang Data Science!',
+        tanggal_acara=date(2025, 1, 10),
+        jenis_acara='Seminar'
+    )
+    acara5 = models.Acara(
+        gambar_file='turnamen_esport.jpg',
+        judul='Turnamen E-sport ITERA',
+        konten='Saksikan keseruan Turnamen E-sport ITERA yang akan mempertemukan tim-tim terbaik dalam game-game populer. Dukung tim favoritmu dan rasakan atmosfer kompetisi yang panas. Turnamen ini menjadi bukti perkembangan pesat industri e-sport di kalangan mahasiswa.\n\nSelain pertandingan utama, akan ada juga mini games, doorprize, dan kesempatan untuk bertemu dengan sesama penggemar e-sport. Jangan lewatkan acara ini untuk menjadi bagian dari komunitas gaming ITERA dan saksikan lahirnya juara-juara baru!',
+        tanggal_acara=date(2025, 1, 25),
+        jenis_acara='Lomba'
+    )
+
+    dbsession.add(acara1)
+    dbsession.add(acara2)
+    dbsession.add(acara3)
+    dbsession.add(acara4)
+    dbsession.add(acara5)
+
 
 def parse_args(argv):
     parser = argparse.ArgumentParser()

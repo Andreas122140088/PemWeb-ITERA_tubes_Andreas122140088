@@ -16,6 +16,6 @@ def main(global_config, **settings):
         config.include('pyramid_jinja2')
         config.include('.models')
         config.include('.routes')
+        config.scan('.views')  # Pindai direktori views untuk menemukan view configurations
         config.add_subscriber(add_cors_headers, NewResponse)  # Add CORS subscriber
-        config.scan()
     return config.make_wsgi_app()
