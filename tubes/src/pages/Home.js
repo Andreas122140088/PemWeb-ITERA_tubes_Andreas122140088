@@ -116,7 +116,7 @@ function Home({ isDarkMode }) {
               <p className={`text-center col-span-full ${isDarkMode ? 'text-itera-dark-text' : 'text-gray-600'}`}>Tidak ada acara ditemukan.</p>
             ) : (
               filteredEvents.map((event) => (
-                <EventCard key={event.id} event={event} />
+                <EventCard key={event.id} event={event} isDarkMode={isDarkMode} />
               ))
             )}
           </div>
