@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 function AcaraDetail() {
   const { id } = useParams();
   const [acara, setAcara] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { user } = useContext(AuthContext); // Use AuthContext
+  const navigate = useNavigate(); // Use useNavigate for redirection
 
   useEffect(() => {
     const fetchAcaraDetail = async () => {
@@ -25,6 +28,32 @@ function AcaraDetail() {
 
     fetchAcaraDetail();
   }, [id]); // Re-run effect if id changes
+
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this event?')) {
+      try {
+        const response = await fetch(`http://localhost:6543/api/acara/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            // Include authorization header if your backend requires it
+            // 'Authorization': `Bearer ${user.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Redirect to home or events list page after successful deletion
+        navigate('/'); // Redirect to home page
+
+      } catch (error) {
+        console.error('Error deleting event:', error);
+        alert('Failed to delete event.' + error.message);
+      }
+    }
+  };
 
   if (loading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
@@ -50,6 +79,18 @@ function AcaraDetail() {
         <div className="prose dark:prose-invert max-w-none leading-relaxed">
           <div dangerouslySetInnerHTML={{ __html: acara.konten }}></div>
         </div>
+
+        {/* Conditional rendering of delete button */}
+        {user && user.email === 'andreas.122140088@student.itera.ac.id' && (
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Hapus Acara
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

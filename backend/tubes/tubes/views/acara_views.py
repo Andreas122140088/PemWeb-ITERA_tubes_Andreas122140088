@@ -125,3 +125,34 @@ def add_acara(request):
         # Let the transaction manager handle rollback
         request.response.status = 500
         return {'error': f'An unexpected error occurred during database operation or other process: {e}'}
+
+@view_config(route_name='acara_detail_options', request_method='OPTIONS')
+def acara_detail_options(request):
+    """Handle OPTIONS requests for Acara detail route for CORS."""
+    response = Response()
+    response.headers['Access-Control-Allow-Origin'] = '*' # Or specify your frontend origin
+    response.headers['Access-Control-Allow-Methods'] = 'GET, DELETE, POST, PUT, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization' # Add any other required headers
+    response.headers['Access-Control-Max-Age'] = '3600' # Cache preflight response for 1 hour
+    return response
+
+@view_config(route_name='acara_delete', request_method='DELETE', renderer='json')
+def delete_acara(request):
+    """View function to delete an Acara by ID."""
+    try:
+        acara_id = request.matchdict['id']
+        acara = request.dbsession.query(models.Acara).filter_by(id=acara_id).first()
+
+        if acara is None:
+            return HTTPNotFound(json_body={'error': f'Acara with id {acara_id} not found'})
+
+        # Optional: Add authorization check here if needed
+        # e.g., check if the logged-in user is authorized to delete this event
+
+        request.dbsession.delete(acara)
+
+        return {'message': f'Acara with id {acara_id} deleted successfully'}
+
+    except Exception as e:
+        request.response.status = 500
+        return {'error': str(e)}
