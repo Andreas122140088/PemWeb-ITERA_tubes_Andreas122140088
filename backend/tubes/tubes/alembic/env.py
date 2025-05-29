@@ -4,6 +4,7 @@ from pyramid.paster import get_appsettings, setup_logging
 from sqlalchemy import engine_from_config
 
 from tubes.models.meta import Base
+import tubes.models  # Import models to register them with Base.metadata
 
 config = context.config
 

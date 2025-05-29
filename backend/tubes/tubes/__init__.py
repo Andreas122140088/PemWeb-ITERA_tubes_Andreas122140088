@@ -2,6 +2,7 @@ from pyramid.config import Configurator
 from pyramid.events import NewResponse
 
 
+
 def add_cors_headers(event):
     event.response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     event.response.headers['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT,OPTIONS'
@@ -14,6 +15,7 @@ def main(global_config, **settings):
     """
     with Configurator(settings=settings) as config:
         config.include('pyramid_jinja2')
+        config.include('pyramid_tm')  # Include the transaction manager
         config.include('.models')
         config.include('.routes')
         config.scan('.views')  # Pindai direktori views untuk menemukan view configurations

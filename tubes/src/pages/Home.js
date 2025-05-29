@@ -23,8 +23,8 @@ function Home({ isDarkMode }) {
           id: item.id,
           title: item.judul || item.title || item.name || 'No Title', // Use judul, then title, then name, then default
           description: item.konten ? `${item.konten.substring(0, 150)}${item.konten.length > 150 ? '...' : ''}` : item.description ? `${item.description.substring(0, 150)}${item.description.length > 150 ? '...' : ''}` : 'No description available.', // Use konten, then description snippet, then default
-          // Try multiple possible keys for image and ensure it's an array
-          poster: [item.image_path || item.image_url || item.poster_url].filter(url => url), // Get first non-null/undefined URL and put in array
+          // Use gambar_file from backend and prepend the static URL
+          poster: item.gambar_file ? `http://localhost:6543/${item.gambar_file}` : null, // Use gambar_file
           date: item.tanggal_acara || item.date || item.event_date || 'N/A', // Use tanggal_acara, then date, then event_date, then default
           categories: Array.isArray(item.jenis_acara) ? item.jenis_acara : (item.jenis_acara ? [item.jenis_acara] : (Array.isArray(item.categories) ? item.categories : (item.categories ? [item.categories] : ['Uploaded']))), // Ensure categories is always an array
         }));

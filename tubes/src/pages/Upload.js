@@ -6,6 +6,8 @@ function Upload({ isDarkMode }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [tanggalAcara, setTanggalAcara] = useState(''); // Add state for tanggal_acara
+  const [jenisAcara, setJenisAcara] = useState(''); // Add state for jenis_acara
   const navigate = useNavigate(); // Initialize navigate
 
   const handleSubmit = async (e) => { // Make handleSubmit async
@@ -14,13 +16,15 @@ function Upload({ isDarkMode }) {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
+    formData.append('tanggal_acara', tanggalAcara); // Append tanggal_acara
+    formData.append('jenis_acara', jenisAcara); // Append jenis_acara
     if (image) {
       formData.append('image', image);
     }
 
     try {
       // Update the URL to point to the backend's upload route
-      const response = await fetch('http://localhost:6543/upload', {
+      const response = await fetch('http://localhost:6543/api/acara', { // Update URL
         method: 'POST',
         body: formData,
         // fetch automatically sets Content-Type for FormData
@@ -72,6 +76,30 @@ function Upload({ isDarkMode }) {
               rows="4"
               required
             ></textarea>
+          </div>
+          {/* Add input for Tanggal Acara */}
+          <div>
+            <label htmlFor="tanggal_acara" className="block mb-2">Tanggal Acara</label>
+            <input
+              type="date"
+              id="tanggal_acara"
+              value={tanggalAcara}
+              onChange={(e) => setTanggalAcara(e.target.value)}
+              className={`w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-600 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}`}
+              required
+            />
+          </div>
+          {/* Add input for Jenis Acara */}
+          <div>
+            <label htmlFor="jenis_acara" className="block mb-2">Jenis Acara</label>
+            <input
+              type="text"
+              id="jenis_acara"
+              value={jenisAcara}
+              onChange={(e) => setJenisAcara(e.target.value)}
+              className={`w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-600 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : ''}`}
+              required
+            />
           </div>
           <div>
             <label htmlFor="image" className="block mb-2">Upload Image</label>

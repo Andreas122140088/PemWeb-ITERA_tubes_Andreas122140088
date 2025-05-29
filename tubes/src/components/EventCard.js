@@ -10,7 +10,7 @@ function EventCard({ event, isDarkMode }) {
         <p className={`mt-1 ${isDarkMode ? 'text-itera-dark-text' : 'text-gray-600'}`}>{event.date} | {Array.isArray(event.categories) ? event.categories.join(', ') : event.categories || 'No Categories'}</p>
         <p className={`mt-2 line-clamp-2 ${isDarkMode ? 'text-itera-dark-text' : 'text-gray-600'}`}>{event.description}</p>
         <Link
-          to={`/event/${event.id}`}
+          to={`/acara/${event.id}`}
           className="mt-3 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         >
           Detail
