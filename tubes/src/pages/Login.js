@@ -50,7 +50,7 @@ function Login({ isDarkMode }) {
         <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block mb-2">{isDarkMode ? 'Email' : 'text-gray-700'}</label>
+            <label htmlFor="email" className="block mb-2">{isDarkMode ? 'Email' : 'Email'}</label>
             <input
               type="email"
               id="email"
@@ -61,7 +61,7 @@ function Login({ isDarkMode }) {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block mb-2">{isDarkMode ? 'Password' : 'text-gray-700'}</label>
+            <label htmlFor="password" className="block mb-2">{isDarkMode ? 'Password' : 'Password'}</label>
             <input
               type="password"
               id="password"
